@@ -1,0 +1,8 @@
+server {
+    root /home/{{ aptly_user }}/.aptly/public;
+    server_name {{ aptly_virtualhost }};
+
+    location / {
+        autoindex on;
+    }
+}

@@ -1,0 +1,85 @@
+-
+    name: Creating user repo
+    user: name={{ aptly_user }} shell=/bin/false
+    sudo: yes
+-
+    name: Install aptly debian repository
+    apt_repository: repo='deb http://repo.aptly.info/ squeeze main' state=present update_cache=yes
+    sudo: yes
+-
+    name: Import aptly key
+    apt_key: id=2A194991 keyserver=keys.gnupg.net state=present
+    sudo: yes
+-
+    name: Install GPG and nginx
+    apt: name={{ item }} state=present update_cache=yes
+    with_items:
+        - aptly=0.5.1
+        - gnupg
+        - nginx
+    sudo: yes
+-
+    name: Upload repository key
+    copy: src="{{ aptly_secret_key_path }}/{{ aptly_secret_key_file }}" dest=/tmp owner={{ aptly_user }} group={{ aptly_user }} mode=0400
+    sudo: yes
+-
+    name: Import repository key to gnupg
+    shell: >
+        ( gpg --list-secret-keys | grep -q "{{ aptly_secret_key_id }}" )
+        || gpg --allow-secret-key-import --import /tmp/{{ aptly_secret_key_file }}
+    sudo: yes
+    sudo_user: "{{ aptly_user }}"
+-
+    name: Remove secret key from repote host
+    file: path="/tmp/{{ aptly_secret_key_file }}" state=absent
+    sudo: yes
+-
+    name: Create repositories
+    shell: >
+        (aptly repo list -raw | grep -q "{{ item.name }}" )
+        || (
+            aptly repo create \
+                --comment "{{ item.comment|default('\"\"') }}" \
+                --distribution "{{ item.distribution|default('main') }}" \
+                --component "{{ item.component|default('main') }}" \
+                {{ item.name }}
+        )
+    with_items: aptly_repositories
+    sudo: yes
+    sudo_user: "{{ aptly_user }}"
+-
+    name: Upload dummy package
+    copy: src=dummy_0.1_all.deb dest=/tmp/
+    sudo: yes
+-
+    name: Import dummy package to repository
+    command: aptly repo add {{ item.name }} /tmp/dummy_0.1_all.deb
+    with_items: aptly_repositories
+    sudo: yes
+    sudo_user: "{{ aptly_user }}"
+-
+    name: Publish repositories
+    shell: >
+        (aptly publish list | grep -q "{{ item.name }}")
+        || aptly publish repo \
+            --gpg-key "{{ aptly_secret_key_id }}" \
+            --architectures "{{ item.architectures|default('amd64,i386') }}" \
+            "{{ item.name }}" \
+            "{{ item.prefix|default(item.name) }}"
+    with_items: aptly_repositories
+    sudo: yes
+    sudo_user: "{{ aptly_user }}"
+-
+    name: remove nginx 'it works' page
+    file: path=/etc/nginx/sites-enabled/default state=absent
+    sudo: yes
+-
+    name: Upload nginx configuration file
+    template: src=nginx-aptly.conf.j2 dest=/etc/nginx/sites-available/aptly.conf owner=root group=root mode=644
+    notify: restart nginx
+    sudo: yes
+-
+    name: Creating nginx configuration symlinks
+    file: src=/etc/nginx/sites-available/aptly.conf dest=/etc/nginx/sites-enabled/aptly.conf state=link
+    notify: restart nginx
+    sudo: yes
