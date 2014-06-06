@@ -7,7 +7,7 @@ Aptly is a brilliant software for creating both your own debian repositories and
 Notes
 =====
 
-1. This role is tested on Ubuntu 14.04 and aptly 0.5.9 only (the latest as for 25th May 2014). Patches for other distributions and versions are welcome.
+1. This role is tested on Ubuntu 14.04 (Trusty) and aptly 0.5.9 only (the latest as for 25th May 2014). Patches for other distributions and versions are welcome.
 1. This role configures aptly as your own repository server only. Mirrors management wasn't tested.
 
 
@@ -99,18 +99,18 @@ How to setup clients
 --------------------
 
     apt-key add secrets/aptly/public.key
-    echo 'deb http://server_name/yourcompany-dev trusty main' > /etc/apt/sources.list.d/your_company_dev.list"
+    echo 'deb http://<server_name>/<repository-name> trusty main' > /etc/apt/sources.list.d/<repository-name>.list"
 
 
 How to upload new package
 -------------------------
 Here is an idea:
 
-    scp mybw_0.1_amd64.deb server_name:/tmp/
-    ssh server_name 'sudo -u aptly -H aptly repo add yourcompany-dev /tmp/mybw_0.1_amd64.deb'
-    ssh server_name 'sudo -u aptly -H aptly publish update saucy yourcompany-dev'
+    scp <package.deb> server_name:/tmp/
+    ssh server_name 'sudo -u aptly -H aptly repo add <repository name> /tmp/<package.deb>
+    ssh server_name 'sudo -u aptly -H aptly publish update main <repository name>'
 
-I found no way to upload signed .deb packages (.changes file)
+AFAIK at this moment aptly doesn't support uploading signed .deb packages (.changes file)
 
 
 License
