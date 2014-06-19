@@ -8,7 +8,7 @@ Notes
 =====
 
 1. This role is tested on Ubuntu 14.04 (Trusty) and aptly 0.5.9 only (the latest as for 25th May 2014). Patches for other distributions and versions are welcome.
-1. This role configures aptly as your own repository server only. If you need a mirror, you can use this role to install aptly, but you stil need to configure it by yourself.
+1. This role configures aptly as your own repository server only. If you need a mirror, you can use this role to install aptly, but you stil need to configure mirrors by yourself.
 
 
 Requirements
@@ -35,7 +35,7 @@ Use the following shell commands to obtain your own keys pair:
         gpg: depth: 0  valid:   4  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 4u
         gpg: next trustdb check due at 2019-05-23
 
-    ==> pub   2048D/61B1BA69 2014-05-24  <== 61B1BA69 is the ID of key you generated
+    &gt;&gt;&gt; pub   2048D/61B1BA69 2014-05-24  &lt;&lt;&lt; 61B1BA69 is the ID of key you generated
               Key fingerprint = 6C50 B46A 3D75 0C14 041B  6C99 FBBA 0275 61B1 BA69
               uid                  Ivan Ivanov (repository key) <ivan@example.com>
 
@@ -98,17 +98,20 @@ Example Playbook
 How to setup clients
 --------------------
 
-    apt-key add secrets/aptly/public.key
-    echo 'deb http://<server_name>/<repository-name> trusty main' > /etc/apt/sources.list.d/<repository-name>.list"
-
+```shell
+apt-key add secrets/aptly/public.key
+echo 'deb http://$server_name/$repository_name trusty main' > /etc/apt/sources.list.d/$repository_name.list"
+```
 
 How to upload new package
 -------------------------
 Here is an idea:
 
-    scp <package.deb> server_name:/tmp/
-    ssh server_name 'sudo -u aptly -H aptly repo add <repository name> /tmp/<package.deb>
-    ssh server_name 'sudo -u aptly -H aptly publish update main <repository name>'
+```shell
+scp $package_file $server_name:/tmp/
+ssh $server_name 'sudo -u aptly -H aptly repo add $repository_name` /tmp/$package_file
+ssh $server_name 'sudo -u aptly -H aptly publish update main $repository_name'
+```
 
 AFAIK at this moment aptly doesn't support uploading signed .deb packages (.changes file)
 
