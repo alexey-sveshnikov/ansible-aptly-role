@@ -42,11 +42,12 @@
                 --comment "{{ item.comment|default('\"\"') }}" \
                 --distribution "{{ item.distribution|default('main') }}" \
                 --component "{{ item.component|default('main') }}" \
-                {{ item.name }}
+                "{{ item.name }}"
         )
-    with_items: aptly_repositories
     sudo: yes
     sudo_user: "{{ aptly_user }}"
+    with_items: aptly_repositories
+    when: aptly_repositories is defined
 -
     name: Upload dummy package
     copy: src=dummy_0.1_all.deb dest=/tmp/
@@ -54,9 +55,10 @@
 -
     name: Import dummy package to repository
     command: aptly repo add {{ item.name }} /tmp/dummy_0.1_all.deb
-    with_items: aptly_repositories
     sudo: yes
     sudo_user: "{{ aptly_user }}"
+    with_items: aptly_repositories
+    when: aptly_repositories is defined
 -
     name: Publish repositories
     shell: >
@@ -66,9 +68,10 @@
             --architectures "{{ item.architectures|default('amd64,i386') }}" \
             "{{ item.name }}" \
             "{{ item.prefix|default(item.name) }}"
-    with_items: aptly_repositories
     sudo: yes
     sudo_user: "{{ aptly_user }}"
+    with_items: aptly_repositories
+    when: aptly_repositories is defined
 -
     name: remove nginx 'it works' page
     file: path=/etc/nginx/sites-enabled/default state=absent

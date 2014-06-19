@@ -8,7 +8,7 @@ Notes
 =====
 
 1. This role is tested on Ubuntu 14.04 (Trusty) and aptly 0.5.9 only (the latest as for 25th May 2014). Patches for other distributions and versions are welcome.
-1. This role configures aptly as your own repository server only. Mirrors management wasn't tested.
+1. This role configures aptly as your own repository server only. If you need a mirror, you can use this role to install aptly, but you stil need to configure it by yourself.
 
 
 Requirements
@@ -52,10 +52,10 @@ Role Variables
 #### Should be defined:
 
 1. `aptly_secret_key_id`: ID of the GPG key
-1. `aptly_repositories`: Your repositories specification. See an example below.
 
 #### Optional variables:
 
+1. `aptly_repositories`: Repositories to configure (see an example below).
 1. `aptly_user`: user who owns repository files. Default is 'aptly'
 1. `aptly_virtualhost`: name of virtualhost in nginx config file.
 1. `aptly_secret_key_path`: path to GPG keys relative to playbook. Defaults is 'secrets/aptly'
@@ -65,7 +65,7 @@ Role Variables
 Dependencies
 ------------
 
-Gnupg for key generation. None if you already have keys.
+Gnupg for key generation. None if you already have one.
 
 
 Example Playbook
