@@ -35,7 +35,8 @@ Use the following shell commands to obtain your own keys pair:
         gpg: depth: 0  valid:   4  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 4u
         gpg: next trustdb check due at 2019-05-23
 
-    &gt;&gt;&gt; pub   2048D/61B1BA69 2014-05-24  &lt;&lt;&lt; 61B1BA69 is the ID of key you generated
+        pub   2048D/61B1BA69 2014-05-24 (61B1BA69 is the ID of key you generated)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
               Key fingerprint = 6C50 B46A 3D75 0C14 041B  6C99 FBBA 0275 61B1 BA69
               uid                  Ivan Ivanov (repository key) <ivan@example.com>
 
