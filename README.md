@@ -110,8 +110,8 @@ Here is an idea:
 
 ```shell
 scp $package_file $server_name:/tmp/
-ssh $server_name 'sudo -u aptly -H aptly repo add $repository_name` /tmp/$package_file
-ssh $server_name 'sudo -u aptly -H aptly publish update main $repository_name'
+ssh $server_name "sudo -u aptly -H aptly repo add $repository_name /tmp/$package_file"
+ssh $server_name "sudo -u aptly -H aptly publish update main $repository_name"
 ```
 
 AFAIK at this moment aptly doesn't support uploading signed .deb packages (.changes file)
