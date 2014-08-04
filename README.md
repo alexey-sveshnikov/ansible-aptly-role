@@ -35,12 +35,12 @@ Use the following shell commands to obtain your own keys pair:
         gpg: depth: 0  valid:   4  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 4u
         gpg: next trustdb check due at 2019-05-23
 
-        pub   2048D/61B1BA69 2014-05-24 (61B1BA69 is the ID of key you generated)
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        pub   2048D/61B1BA69 2014-05-24
+        ~~~~~~~~~~~~^^^^^^^^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
               Key fingerprint = 6C50 B46A 3D75 0C14 041B  6C99 FBBA 0275 61B1 BA69
               uid                  Ivan Ivanov (repository key) <ivan@example.com>
 
-Once you generated the key, you should export it to the corresponding files. Replace key ID with yours (you can find it in the end of previous command's output, see above)
+Once you generated the key, you should export it to the corresponding files. Replace key ID with yours (you can find it in the end of previous command's output. In this example key ID is 61B1BA69)
 
     $ mkdir -p secrets/aptly  # (assuming you are in the directory where inventory.ini and playbooks are located. Also see 'Optional Variables' section)
     $ gpg --export-secret-keys --armor 61B1BA69 > secrets/aptly/private.key
