@@ -14,7 +14,7 @@
     name: Install GPG and nginx
     apt: name={{ item }} state=present update_cache=yes
     with_items:
-        - aptly=0.5.1
+        - aptly=0.8
         - gnupg
         - nginx
     sudo: yes
