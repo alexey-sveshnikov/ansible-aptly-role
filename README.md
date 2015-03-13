@@ -1,22 +1,22 @@
 Aptly
 ========
 
-Aptly is a brilliant software for creating both your own debian repositories and official repository mirrors with git-like snapshot management. This role helps you to install aptly and setup your own repository with nginx as web server.
+Aptly is a brilliant software for creating both your own Debian repositories and official repository mirrors with git-like snapshot management. This role helps you to install aptly and setup your own repository with nginx as web server.
 
 
 Notes
 =====
 
-1. This role is tested on Ubuntu 14.04 (Trusty) and aptly 0.8 only (the latest as for 01 Dec 2014). Patches for other distributions and versions are welcome.
-1. This role configures aptly as your own repository server only. If you need a mirror, you can use this role to install aptly, but you stil need to configure mirrors by yourself.
+1. This role is tested on Ubuntu 14.04 (Trusty) and aptly 0.9.1 only (the latest as of 13 Mar 2015). Patches for other distributions and versions are welcome.
+1. This role configures aptly as your own repository server only. If you need a mirror, you can use this role to install aptly, but you still need to configure mirrors by yourself.
 
 
 Requirements
 ------------
 
-You need a GPG public/private keys pair to sign your repository.
+You need a GPG public/private key pair to sign your repository.
 
-Use the following shell commands to obtain your own keys pair:
+Use the following shell commands to obtain your own key pair:
 
     $ sudo apt-get install gnupg
     $ gpg --gen-key
@@ -40,7 +40,7 @@ Use the following shell commands to obtain your own keys pair:
               Key fingerprint = 6C50 B46A 3D75 0C14 041B  6C99 FBBA 0275 61B1 BA69
               uid                  Ivan Ivanov (repository key) <ivan@example.com>
 
-Once you generated the key, you should export it to the corresponding files. Replace key ID with yours (you can find it in the end of previous command's output. In this example key ID is 61B1BA69)
+Once you have generated the key pair, you should export it to the corresponding files. Replace key ID with yours (you can find it in the end of previous command's output. In this example, the key ID is 61B1BA69)
 
     $ mkdir -p secrets/aptly  # (assuming you are in the directory where inventory.ini and playbooks are located. Also see 'Optional Variables' section)
     $ gpg --export-secret-keys --armor 61B1BA69 > secrets/aptly/private.key
@@ -80,7 +80,7 @@ Example Playbook
         vars:
             aptly_secret_key_id: <GNUPG KEY ID>
             aptly_repositories:
-                - 
+                -
                     # With optional parameters
                     name: yourcompany-dev
                     comment: Developent packages
@@ -101,7 +101,7 @@ How to setup clients
 
 ```shell
 apt-key add secrets/aptly/public.key
-echo 'deb http://$server_name/$repository_name trusty main' > /etc/apt/sources.list.d/$repository_name.list"
+echo 'deb http://$server_name/$repository_name trusty main' > /etc/apt/sources.list.d/$repository_name.list
 ```
 
 How to upload new package
