@@ -7,7 +7,7 @@ Aptly is a brilliant software for creating both your own Debian repositories and
 Notes
 =====
 
-1. This role is tested on Ubuntu 14.04 (Trusty) and aptly 0.9.1 only (the latest as of 13 Mar 2015). Patches for other distributions and versions are welcome.
+1. This role is tested on Ubuntu 14.04 (Trusty) and aptly 0.9.5 only (the latest as of 18 Mar 2015). Patches for other distributions and versions are welcome.
 1. This role configures aptly as your own repository server only. If you need a mirror, you can use this role to install aptly, but you still need to configure mirrors by yourself.
 
 
@@ -56,6 +56,7 @@ Role Variables
 
 #### Optional variables:
 
+1. `aptly_version`: Aptly version to install. Hint: use '0.9.*' to install future releases in 0.9 branch automatically.
 1. `aptly_repositories`: Repositories to configure (see an example below).
 1. `aptly_user`: user who owns repository files. Default is 'aptly'
 1. `aptly_virtualhost`: name of virtualhost in nginx config file.
