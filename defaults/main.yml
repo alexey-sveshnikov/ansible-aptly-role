@@ -1,5 +1,14 @@
 aptly_version: 0.9.5
 aptly_user: aptly
+aptly_root: /var/lib/aptly/.aptly
+aptly_import_dir: /tmp/aptly_import
 aptly_virtualhost: repository.local
+aptly_admin: admin@localhost
 aptly_secret_key_path: secrets/aptly
 aptly_secret_key_file: private.key
+aptly_keyserver: keys.gnupg.net
+aptly_filter:
+ - Priority (required)
+ - Priority (important)
+ - Priority (standard)
+aptly_webserver: nginx

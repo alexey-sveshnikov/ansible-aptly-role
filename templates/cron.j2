@@ -1,0 +1,16 @@
+#!/bin/sh
+
+DATE=$(date --rfc-3339=date)
+NAME=trusty-${DATE}
+
+# create snapshot of each repo
+{% for repo in aptly_mirrors %}
+aptly mirror update {{ repo.name }}
+aptly snapshot create {{ repo.name }}-${DATE} from mirror {{ repo.name }}
+{% endfor %}
+
+# merge all in one
+aptly snapshot merge ${NAME} {% for repo in aptly_mirrors %}{{ repo.name }}-${DATE} {% endfor %}
+
+# publish snapshot as repo
+aptly publish snapshot -distribution="${DATE}" ${NAME}

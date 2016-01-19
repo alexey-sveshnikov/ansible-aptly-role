@@ -1,7 +1,7 @@
 Aptly
 ========
 
-Aptly is a brilliant software for creating both your own Debian repositories and official repository mirrors with git-like snapshot management. This role helps you to install aptly and setup your own repository with nginx as web server.
+Aptly is a brilliant software for creating both your own Debian repositories and official repository mirrors with git-like snapshot management. This role helps you to install aptly and setup your own repository with nginx or apache2 as web server.
 
 
 Notes
@@ -93,6 +93,22 @@ Example Playbook
                     name: yourcompany-testing
                 -
                     name: yourcompany-prod
+            aptly_mirror_keys:
+             - 437D05B5
+             - C0B21F32
+            aptly_mirrors:
+             - name: "trusty-main"
+               url: "http://de.archive.ubuntu.com/ubuntu/"
+               component: "trusty main"
+             - name: "trusty-updates"
+               url: "http://de.archive.ubuntu.com/ubuntu/"
+               component: "trusty-updates main"
+             - name: "trusty-security"
+               url: "http://de.archive.ubuntu.com/ubuntu/"
+               component: "trusty-security main"
+             - name: "trusty-backports"
+               url: "http://de.archive.ubuntu.com/ubuntu/"
+               component: "trusty-backports main"
         roles:
             - aptly
 
