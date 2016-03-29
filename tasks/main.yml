@@ -8,7 +8,7 @@
     sudo: yes
 -
     name: Import aptly key
-    apt_key: id=2A194991 keyserver=keys.gnupg.net state=present
+    apt_key: id=9E3E53F19C7DE460 keyserver=keys.gnupg.net state=present
     sudo: yes
 -
     name: Install GPG and nginx
