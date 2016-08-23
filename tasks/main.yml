@@ -28,7 +28,7 @@
         ( gpg --list-secret-keys | grep -q "{{ aptly_secret_key_id }}" )
         || gpg --allow-secret-key-import --import /tmp/{{ aptly_secret_key_file }}
     sudo: yes
-    sudo_user: "{{ aptly_user }}"
+    become_user: "{{ aptly_user }}"
 -
     name: Remove secret key from repote host
     file: path="/tmp/{{ aptly_secret_key_file }}" state=absent
@@ -45,7 +45,7 @@
                 "{{ item.name }}"
         )
     sudo: yes
-    sudo_user: "{{ aptly_user }}"
+    become_user: "{{ aptly_user }}"
     with_items: aptly_repositories
     when: aptly_repositories is defined
 -
@@ -56,7 +56,7 @@
     name: Import dummy package to repository
     command: aptly repo add {{ item.name }} /tmp/dummy_0.1_all.deb
     sudo: yes
-    sudo_user: "{{ aptly_user }}"
+    become_user: "{{ aptly_user }}"
     with_items: aptly_repositories
     when: aptly_repositories is defined
 -
@@ -69,7 +69,7 @@
             "{{ item.name }}" \
             "{{ item.prefix|default(item.name) }}"
     sudo: yes
-    sudo_user: "{{ aptly_user }}"
+    become_user: "{{ aptly_user }}"
     with_items: aptly_repositories
     when: aptly_repositories is defined
 -
